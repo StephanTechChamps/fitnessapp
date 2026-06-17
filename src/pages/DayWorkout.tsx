@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Zap, Timer, CheckCircle2, Clock } from 'lucide-react'
 import { BUFF_DUDES } from '../data/buffDudes'
@@ -44,7 +44,9 @@ export default function DayWorkout() {
   const { saveSession } = useProgramProgress()
   const { markComplete } = useCompletedSessions()
   const { getImage } = useExerciseImages()
-  const { saveWorkout } = useWorkouts()
+  const { saveWorkout, updateWorkout } = useWorkouts()
+  const docIdRef = useRef<string | null>(null)
+  const creatingRef = useRef(false)
 
   const phase = BUFF_DUDES.phases.find((p) => p.id === phaseId)
   const day = phase?.days.find((d) => d.day === Number(dayNum))
@@ -108,19 +110,47 @@ export default function DayWorkout() {
 
   function toggleSet(exIdx: number, setIdx: number) {
     const wasCompleted = exercises[exIdx].sets[setIdx].completed
-    setExercises((prev) => {
-      const next = [...prev]
-      const ex = { ...next[exIdx] }
-      const sets = [...ex.sets]
-      sets[setIdx] = { ...sets[setIdx], completed: !sets[setIdx].completed }
-      ex.sets = sets
-      next[exIdx] = ex
-      return next
-    })
+    const next = exercises.map((ex, i) =>
+      i !== exIdx
+        ? ex
+        : { ...ex, sets: ex.sets.map((s, j) => (j !== setIdx ? s : { ...s, completed: !s.completed })) }
+    )
+    setExercises(next)
     // Completing a set auto-starts the rest countdown.
     if (!wasCompleted) {
       setRestKey((k) => k + 1)
       setRestActive(true)
+    }
+    // Persist progress every time a set is checked.
+    saveSession(phaseId!, week, day!.day, phase!.name, day!.focus)
+    persist(next)
+    if (next.every((ex) => ex.sets.every((s) => s.completed))) {
+      markComplete(phaseId!, week, day!.day)
+    }
+  }
+
+  // Autosave the session to Firestore — creates the doc on first check, then
+  // updates the same doc on every subsequent set.
+  async function persist(exs: TrackingExercise[]) {
+    const payload = {
+      name: `P${phaseIndex} W${week} D${day!.day} — ${day!.focus}`,
+      date: new Date().toISOString().split('T')[0],
+      durationMinutes: Math.round((Date.now() - startTime) / 60000),
+      exercises: exs.map((ex) => ({
+        exerciseId: `${phaseId}-w${week}-d${day!.day}-${ex.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+        name: ex.name,
+        category: ex.category,
+        imageUrl: null,
+        sets: ex.sets,
+      })),
+    }
+    if (docIdRef.current) {
+      await updateWorkout(docIdRef.current, payload)
+    } else if (!creatingRef.current) {
+      creatingRef.current = true
+      const id = await saveWorkout(payload)
+      docIdRef.current = id
+      creatingRef.current = false
     }
   }
 
@@ -146,29 +176,16 @@ export default function DayWorkout() {
     })
   }
 
-  async function saveWorkoutSession() {
+  async function finishAndNext() {
     setSaving(true)
-    const durationMinutes = Math.round((Date.now() - startTime) / 60000)
-    await saveWorkout({
-      name: `P${phaseIndex} W${week} D${day!.day} — ${day!.focus}`,
-      date: new Date().toISOString().split('T')[0],
-      durationMinutes,
-      exercises: exercises.map((ex) => ({
-        exerciseId: `${phaseId}-w${week}-d${day!.day}-${ex.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
-        name: ex.name,
-        category: ex.category,
-        imageUrl: null,
-        sets: ex.sets,
-      })),
-    })
-    saveSession(phaseId!, week, day!.day, phase!.name, day!.focus)
+    await persist(exercises)
     markComplete(phaseId!, week, day!.day)
     if (nextDay) navigate(`/program/${nextDay.phaseId}/w/${nextDay.week}/d/${nextDay.dayNum}`)
     else navigate('/program')
   }
 
   return (
-    <div className="min-h-screen bg-[#F2F2F7] pb-40">
+    <div className="min-h-screen bg-[#F2F2F7] pb-44">
       {/* Floating Rest button — appears once the header scrolls away */}
       {scrolled && (
         <button
@@ -317,25 +334,30 @@ export default function DayWorkout() {
       {restActive && <RestTimer key={restKey} onDismiss={() => setRestActive(false)} />}
 
       <div
-        className="fixed bottom-0 left-0 right-0 px-5 py-4"
+        className="fixed left-0 right-0 px-5 pt-6 pb-2 flex flex-col items-center"
         style={{
-          paddingBottom: 'max(1rem, env(safe-area-inset-bottom))',
-          background: 'linear-gradient(to top, #F2F2F7 75%, transparent)',
+          bottom: 'calc(72px + env(safe-area-inset-bottom, 0px))',
+          background: 'linear-gradient(to top, #F2F2F7 70%, transparent)',
         }}
       >
         <button
-          onClick={saveWorkoutSession}
-          disabled={saving}
-          className="w-full bg-[#F4845F] text-white rounded-[16px] py-4 flex items-center justify-center gap-2 text-[16px] font-semibold active:opacity-80 disabled:opacity-60 transition-opacity"
+          onClick={finishAndNext}
+          disabled={!allDone || saving}
+          className={`rounded-full py-2.5 px-6 flex items-center justify-center gap-2 text-[13px] font-semibold transition-all ${
+            allDone
+              ? 'bg-[#F4845F] text-white shadow-md active:opacity-80'
+              : 'bg-[#ECECF1] text-[#AEAEB2]'
+          }`}
         >
-          <CheckCircle2 size={18} />
-          {saving ? 'Saving…' : allDone && nextDay ? 'Save & Go to Next Day' : 'Save Workout'}
+          <CheckCircle2 size={16} />
+          {saving
+            ? 'Saving…'
+            : allDone
+            ? nextDay
+              ? 'Finish & Next Day'
+              : 'Finish Workout'
+            : `Auto-saving · ${completedSets}/${totalSets}`}
         </button>
-        {nextDay && (
-          <p className="text-center text-[12px] text-[#8E8E93] mt-2">
-            Next: Week {nextDay.week} · {BUFF_DUDES.phases.find((p) => p.id === nextDay.phaseId)?.days.find((d) => d.day === nextDay.dayNum)?.focus}
-          </p>
-        )}
       </div>
     </div>
   )

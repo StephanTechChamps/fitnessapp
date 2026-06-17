@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import {
   collection,
+  doc,
   addDoc,
+  updateDoc,
   getDocs,
   query,
   orderBy,
@@ -21,8 +23,13 @@ export function useWorkouts() {
 
   const saveWorkout = async (workout: Omit<Workout, 'id'>) => {
     if (!workoutsRef) return null
-    const doc = await addDoc(workoutsRef, { ...workout, createdAt: serverTimestamp() })
-    return doc.id
+    const ref = await addDoc(workoutsRef, { ...workout, createdAt: serverTimestamp() })
+    return ref.id
+  }
+
+  const updateWorkout = async (id: string, workout: Omit<Workout, 'id'>) => {
+    if (!user) return
+    await updateDoc(doc(db, 'users', user.uid, 'workouts', id), { ...workout })
   }
 
   const fetchWorkouts = useCallback(async (count = 50) => {
@@ -53,5 +60,5 @@ export function useWorkouts() {
     fetchWorkouts()
   }, [fetchWorkouts])
 
-  return { workouts, loading, saveWorkout, fetchWorkouts }
+  return { workouts, loading, saveWorkout, updateWorkout, fetchWorkouts }
 }

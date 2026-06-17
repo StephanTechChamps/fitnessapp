@@ -19,10 +19,15 @@ function parseReps(setsCount: number, repsStr: string): WorkoutSet[] {
 }
 
 function useElapsed(startTime: number) {
-  const [elapsed, setElapsed] = useState(0)
+  const tick = () => Math.floor((Date.now() - startTime) / 1000)
+  const [elapsed, setElapsed] = useState(tick)
   useEffect(() => {
-    const id = setInterval(() => setElapsed(Math.floor((Date.now() - startTime) / 1000)), 1000)
-    return () => clearInterval(id)
+    setElapsed(tick())
+    const id = setInterval(() => setElapsed(tick()), 1000)
+    // Snap back immediately when the app is foregrounded after being in background.
+    const onVisible = () => { if (document.visibilityState === 'visible') setElapsed(tick()) }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => { clearInterval(id); document.removeEventListener('visibilitychange', onVisible) }
   }, [startTime])
   const m = Math.floor(elapsed / 60).toString().padStart(2, '0')
   const s = (elapsed % 60).toString().padStart(2, '0')
@@ -38,7 +43,7 @@ interface TrackingExercise {
 }
 
 const STORE_PREFIX = 'sessionProgress_v1'
-interface StoredSession { exercises: TrackingExercise[]; docId: string | null }
+interface StoredSession { exercises: TrackingExercise[]; docId: string | null; startTime?: number }
 
 function loadStored(key: string): StoredSession | null {
   try { const r = localStorage.getItem(key); return r ? JSON.parse(r) : null } catch { return null }
@@ -66,7 +71,7 @@ export default function DayWorkout() {
   const day = phase?.days.find((d) => d.day === Number(dayNum))
   const storeKey = `${STORE_PREFIX}|${programId}|${phaseId}|${week}|${dayNum}`
 
-  const [startTime] = useState(() => Date.now())
+  const [startTime] = useState(() => loadStored(storeKey)?.startTime ?? Date.now())
   const [tracking, setTracking] = useState(false)
   const [exercises, setExercises] = useState<TrackingExercise[]>([])
   const [saving, setSaving] = useState(false)
@@ -99,8 +104,8 @@ export default function DayWorkout() {
   }, [storeKey, day])
 
   useEffect(() => {
-    if (tracking && exercises.length) saveStored(storeKey, { exercises, docId: docIdRef.current })
-  }, [exercises, tracking, storeKey])
+    if (tracking && exercises.length) saveStored(storeKey, { exercises, docId: docIdRef.current, startTime })
+  }, [exercises, tracking, storeKey, startTime])
 
   if (!program || !phase || !day) {
     return <div className="min-h-screen bg-[#F8F7F4] flex items-center justify-center">
@@ -293,20 +298,20 @@ export default function DayWorkout() {
                     <div key={setIdx}
                       className={`flex items-center gap-1.5 px-2 py-1.5 border-[0.5px] ${set.completed ? 'border-[#FF5500]/30 bg-[#FF5500]/8' : 'border-[#E5E3DD] bg-[#F8F7F4]'}`}>
                       <span className="text-[10px] font-light text-[#636158] w-3 flex-shrink-0">{setIdx + 1}</span>
-                      <div className="flex flex-1 items-center gap-1.5">
-                        <div className="flex-1 flex flex-col items-center">
+                      <div className="flex flex-1 min-w-0 items-center gap-1.5">
+                        <div className="flex-1 min-w-0 flex flex-col items-center overflow-hidden">
                           <input
                             type="number" inputMode="numeric" value={set.reps} min={1}
                             onChange={(e) => updateSet(exIdx, setIdx, { reps: Math.max(1, parseInt(e.target.value) || 1) })}
-                            className="w-full text-center text-[14px] font-extralight bg-transparent text-[#0F0F0E] focus:outline-none border-b-[0.5px] border-[#E5E3DD] focus:border-[#FF5500] pb-0.5"
+                            className="w-full min-w-0 text-center text-[14px] font-extralight bg-transparent text-[#0F0F0E] focus:outline-none border-b-[0.5px] border-[#E5E3DD] focus:border-[#FF5500] pb-0.5"
                           />
                           <span className="text-[8px] font-medium text-[#636158] uppercase tracking-[0.12em] mt-0.5">reps</span>
                         </div>
-                        <div className="flex-1 flex flex-col items-center">
+                        <div className="flex-1 min-w-0 flex flex-col items-center overflow-hidden">
                           <input
                             type="number" inputMode="decimal" value={set.weightKg} min={0} step={2.5}
                             onChange={(e) => updateSet(exIdx, setIdx, { weightKg: Math.max(0, parseFloat(e.target.value) || 0) })}
-                            className="w-full text-center text-[14px] font-extralight bg-transparent text-[#0F0F0E] focus:outline-none border-b-[0.5px] border-[#E5E3DD] focus:border-[#FF5500] pb-0.5"
+                            className="w-full min-w-0 text-center text-[14px] font-extralight bg-transparent text-[#0F0F0E] focus:outline-none border-b-[0.5px] border-[#E5E3DD] focus:border-[#FF5500] pb-0.5"
                           />
                           <span className="text-[8px] font-medium text-[#636158] uppercase tracking-[0.12em] mt-0.5">kg</span>
                         </div>

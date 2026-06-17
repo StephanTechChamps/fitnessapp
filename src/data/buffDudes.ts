@@ -5,29 +5,40 @@ export interface ProgramExercise {
   superset?: boolean
   homeAlt?: string
   note?: string
+  type?: 'compound' | 'isolation'
+  primaryMuscles?: string[]
+  secondaryMuscles?: string[]
 }
 
 export interface ProgramDay {
   day: number
   focus: string
+  type?: 'power' | 'hypertrophy'
+  note?: string
   exercises: ProgramExercise[]
 }
 
 export interface ProgramPhase {
   id: string
   name: string
-  weeks: number[]
+  weeks: number[] | null   // null = ongoing weekly cycle (no fixed number of weeks)
   note: string
   days: ProgramDay[]
 }
 
 export interface Program {
+  id: string
   name: string
-  edition: string
+  edition?: string
+  fullName?: string
+  author?: string
+  daysPerWeek?: number
+  schedule?: Record<string, string>
   phases: ProgramPhase[]
 }
 
 export const BUFF_DUDES: Program = {
+  id: "buff_dudes",
   name: "Buff Dudes 12 Week Program",
   edition: "3rd Edition",
   phases: [

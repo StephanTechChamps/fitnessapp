@@ -1,58 +1,74 @@
-import { useNavigate } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
-import { BUFF_DUDES } from '../data/buffDudes'
-
-const PHASE_COLORS = ['#F4A58A', '#E8916A', '#D97C55', '#C96840']
+import { useParams, useNavigate } from 'react-router-dom'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { getProgram } from '../data/programs'
 
 export default function Program() {
+  const { programId } = useParams()
   const navigate = useNavigate()
+  const program = getProgram(programId)
+
+  if (!program) {
+    return (
+      <div className="min-h-screen bg-[#F8F7F4] flex items-center justify-center">
+        <p className="text-[15px] font-light text-[#B5B2AA]">Program not found.</p>
+      </div>
+    )
+  }
 
   return (
-    <div className="min-h-screen bg-[#F2F2F7] pb-nav">
-      <div className="px-6 pt-14 pb-8">
-        <p className="text-[12px] font-semibold uppercase tracking-widest text-[#F4845F] mb-3">
-          Training Program
+    <div className="min-h-screen bg-[#F8F7F4] pb-nav">
+      {/* Header */}
+      <div className="px-6 pt-14 pb-7">
+        <button
+          onClick={() => navigate('/programs')}
+          className="flex items-center gap-1.5 text-[#B5B2AA] text-[11px] font-medium uppercase tracking-[0.14em] mb-5"
+        >
+          <ArrowLeft size={14} />
+          {program.name.toLowerCase()}
+        </button>
+
+        <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] mb-2">
+          training program
         </p>
-        <h1 className="text-[38px] font-bold text-[#1C1C1E] tracking-tight leading-none mb-1">
-          Buff Dudes
+        <h1 className="text-[44px] font-extralight lowercase tracking-[0.01em] leading-[1.05] text-[#0F0F0E]">
+          {program.name.toLowerCase()}
         </h1>
-        <h2 className="text-[38px] font-bold text-[#1C1C1E] tracking-tight leading-none">
-          12 Week
-        </h2>
-        <p className="text-[13px] text-[#8E8E93] mt-3">{BUFF_DUDES.edition}</p>
+        <p className="text-[13px] font-extralight text-[#636158] lowercase mt-2">
+          {program.edition ?? (program.author ? `by ${program.author}` : '')}
+        </p>
       </div>
 
-      <div className="px-5 flex flex-col gap-3">
-        {BUFF_DUDES.phases.map((phase, i) => (
+      {/* Phases list */}
+      <div className="px-6">
+        {program.phases.map((phase, i) => (
           <button
             key={phase.id}
-            onClick={() => navigate(`/program/${phase.id}`)}
-            className="w-full text-left rounded-[20px] overflow-hidden active:opacity-80 transition-opacity"
-            style={{ background: PHASE_COLORS[i] }}
+            onClick={() => navigate(`/program/${program.id}/${phase.id}`)}
+            className="w-full text-left py-5 flex items-center gap-4 border-b-[0.5px] border-[#E5E3DD]"
           >
-            <div className="px-5 py-5 flex items-center gap-4">
-              <span className="text-[52px] font-bold leading-none tabular-nums text-white/20">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <div className="flex-1 min-w-0">
-                <p className="text-[11px] font-semibold uppercase tracking-widest text-white/60 mb-0.5">
-                  Phase {i + 1}
-                </p>
-                <p className="text-[18px] font-bold text-white tracking-tight">{phase.name}</p>
-                <p className="text-[13px] text-white/60 mt-0.5">
-                  Weeks {phase.weeks[0]}–{phase.weeks[phase.weeks.length - 1]} · {phase.days.length} days
-                </p>
-              </div>
-              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-                <ArrowRight size={16} className="text-white" />
-              </div>
+            {/* Large index number */}
+            <span className="text-[52px] font-extralight leading-none tabular-nums text-[#E5E3DD] flex-shrink-0 w-14 text-center">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+
+            {/* Phase info */}
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#636158] mb-1">
+                {program.phases.length > 1 ? `phase ${i + 1}` : 'cycle'}
+              </p>
+              <p className="text-[18px] font-light text-[#0F0F0E] lowercase leading-snug">
+                {phase.name}
+              </p>
+              <p className="text-[13px] font-light text-[#636158] mt-0.5">
+                {phase.weeks
+                  ? `Weeks ${phase.weeks[0]}–${phase.weeks[phase.weeks.length - 1]} · ${phase.days.length} days`
+                  : `${phase.days.length} days · repeats weekly`}
+              </p>
             </div>
+
+            <ArrowRight size={14} className="text-[#B5B2AA] flex-shrink-0" />
           </button>
         ))}
-      </div>
-
-      <div className="px-6 py-8 text-center">
-        <p className="text-[12px] text-[#C7C7CC]">Select a phase to view workouts</p>
       </div>
     </div>
   )

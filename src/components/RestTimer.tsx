@@ -50,18 +50,18 @@ export default function RestTimer({ onDismiss }: Props) {
 
   return (
     <div className="fixed inset-x-0 z-30 px-4" style={{ bottom: 'calc(4.5rem + max(0.5rem, env(safe-area-inset-bottom)) + 0.5rem)' }}>
-      <div className="bg-white border border-[#E5E5EA] rounded-[20px] shadow-xl overflow-hidden">
-        <div className="h-1 bg-[#ECECF1]">
+      <div className="bg-[#1C1C1A] border-[0.5px] border-[#2A2A28] overflow-hidden">
+        <div className="h-[1px] bg-[#2A2A28]">
           <div
-            className="h-full bg-[#F4845F] transition-all duration-1000 linear"
+            className="h-[1px] bg-[#FF5500] transition-all duration-1000 linear"
             style={{ width: `${pct}%` }}
           />
         </div>
 
         <div className="px-4 py-3 flex items-center gap-4">
           <div className="flex-1">
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-[#C7C7CC] mb-0.5">Rest</p>
-            <p className="text-[30px] font-bold text-[#1C1C1E] leading-none tabular-nums">
+            <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#4A4844] mb-0.5">Rest</p>
+            <p className="text-[32px] font-extralight text-white leading-none tabular-nums">
               {mins > 0 ? `${mins}:${String(secs).padStart(2, '0')}` : `${secs}s`}
             </p>
           </div>
@@ -71,10 +71,10 @@ export default function RestTimer({ onDismiss }: Props) {
               <button
                 key={p.seconds}
                 onClick={() => select(p.seconds)}
-                className={`text-[11px] font-semibold px-2.5 py-1 rounded-[10px] transition-colors ${
+                className={`text-[10px] font-medium uppercase tracking-[0.14em] px-3 py-1.5 rounded-none transition-colors ${
                   preset === p.seconds
-                    ? 'bg-[#F4845F] text-white'
-                    : 'bg-[#ECECF1] text-[#8E8E93]'
+                    ? 'bg-[#FF5500] text-white'
+                    : 'bg-[#1C1C1A] border-[0.5px] border-[#2A2A28] text-[#636158]'
                 }`}
               >
                 {p.label}
@@ -85,13 +85,13 @@ export default function RestTimer({ onDismiss }: Props) {
           <div className="flex gap-1.5 flex-shrink-0">
             <button
               onClick={reset}
-              className="w-9 h-9 rounded-[12px] bg-[#ECECF1] flex items-center justify-center text-[#8E8E93]"
+              className="w-9 h-9 rounded-none bg-transparent border-[0.5px] border-[#2A2A28] flex items-center justify-center text-[#636158]"
             >
               <RotateCcw size={15} />
             </button>
             <button
               onClick={onDismiss}
-              className="w-9 h-9 rounded-[12px] bg-[#ECECF1] flex items-center justify-center text-[#8E8E93]"
+              className="w-9 h-9 rounded-none bg-transparent border-[0.5px] border-[#2A2A28] flex items-center justify-center text-[#636158]"
             >
               <X size={15} />
             </button>

@@ -1,17 +1,6 @@
 import { Repeat2, X } from 'lucide-react'
 import type { WgerExercise } from '../types'
 
-const categoryColors: Record<string, string> = {
-  Chest: 'bg-blue-50 text-blue-600',
-  Back: 'bg-purple-50 text-purple-600',
-  Legs: 'bg-green-50 text-green-600',
-  Arms: 'bg-orange-50 text-orange-600',
-  Shoulders: 'bg-pink-50 text-pink-600',
-  Abs: 'bg-yellow-50 text-yellow-700',
-  Calves: 'bg-teal-50 text-teal-600',
-  Other: 'bg-[#ECECF1] text-[#8E8E93]',
-}
-
 interface Props {
   exercise: WgerExercise
   onSelect?: (ex: WgerExercise) => void
@@ -21,8 +10,6 @@ interface Props {
 }
 
 export default function ExerciseCard({ exercise, onSelect, onSwap, onRemove, mode = 'library' }: Props) {
-  const colorClass = categoryColors[exercise.category] ?? categoryColors.Other
-
   return (
     <div
       className={`flex items-center gap-3 ${
@@ -30,7 +17,7 @@ export default function ExerciseCard({ exercise, onSelect, onSwap, onRemove, mod
       }`}
       onClick={mode === 'library' ? () => onSelect?.(exercise) : undefined}
     >
-      <div className="w-11 h-11 rounded-[12px] bg-[#ECECF1] overflow-hidden flex-shrink-0 flex items-center justify-center">
+      <div className="w-10 h-10 bg-[#1C1C1A] overflow-hidden flex-shrink-0 flex items-center justify-center">
         {exercise.imageUrl ? (
           <img
             src={exercise.imageUrl}
@@ -40,17 +27,17 @@ export default function ExerciseCard({ exercise, onSelect, onSwap, onRemove, mod
             onError={(e) => {
               const el = e.target as HTMLImageElement
               el.style.display = 'none'
-              el.parentElement!.innerHTML = `<span class="text-base font-bold text-[#8E8E93]">${exercise.name.charAt(0)}</span>`
+              el.parentElement!.innerHTML = `<span class="text-[14px] font-extralight text-[#4A4844]">${exercise.name.charAt(0)}</span>`
             }}
           />
         ) : (
-          <span className="text-base font-bold text-[#8E8E93]">{exercise.name.charAt(0)}</span>
+          <span className="text-[14px] font-extralight text-[#4A4844]">{exercise.name.charAt(0)}</span>
         )}
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="font-semibold text-[15px] text-[#1C1C1E] truncate">{exercise.name}</p>
-        <span className={`inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full mt-0.5 uppercase tracking-wide ${colorClass}`}>
+        <p className="text-[15px] font-light text-[#0F0F0E] truncate">{exercise.name}</p>
+        <span className="inline-block text-[9px] font-medium uppercase tracking-[0.14em] text-[#B5B2AA] border-[0.5px] border-[#E5E3DD] px-2 py-0.5 rounded-[6px] mt-0.5">
           {exercise.category}
         </span>
       </div>
@@ -60,7 +47,7 @@ export default function ExerciseCard({ exercise, onSelect, onSwap, onRemove, mod
           {onSwap && (
             <button
               onClick={(e) => { e.stopPropagation(); onSwap() }}
-              className="p-2 rounded-[12px] bg-[#ECECF1] text-[#8E8E93]"
+              className="p-2 bg-transparent border-[0.5px] border-[#E5E3DD] text-[#B5B2AA]"
               aria-label="Swap exercise"
             >
               <Repeat2 size={16} />
@@ -69,7 +56,7 @@ export default function ExerciseCard({ exercise, onSelect, onSwap, onRemove, mod
           {onRemove && (
             <button
               onClick={(e) => { e.stopPropagation(); onRemove() }}
-              className="p-2 rounded-[12px] bg-[#ECECF1] text-[#FF453A]"
+              className="p-2 bg-transparent border-[0.5px] border-[#FF5500]/30 text-[#FF5500]"
               aria-label="Remove exercise"
             >
               <X size={16} />

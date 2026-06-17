@@ -3,7 +3,7 @@ import { Layers, Dumbbell, CalendarDays, TrendingUp } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 
 const tabs = [
-  { to: '/program', icon: Layers, label: 'Program' },
+  { to: '/programs', icon: Layers, label: 'Programs' },
   { to: '/workout', icon: Dumbbell, label: 'Workout' },
   { to: '/history', icon: CalendarDays, label: 'History' },
   { to: '/progress', icon: TrendingUp, label: 'Progress' },
@@ -15,12 +15,12 @@ export default function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 bg-[#FFFFFF]"
+      className="fixed bottom-0 left-0 right-0 bg-[#F8F7F4]"
       style={{
-        borderRadius: '24px 24px 0 0',
+        borderRadius: 0,
         height: 'calc(72px + env(safe-area-inset-bottom, 0px))',
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
-        boxShadow: '0 -1px 0 #E5E5EA, 0 -8px 24px rgba(0,0,0,0.04)',
+        borderTop: '0.5px solid #E5E3DD',
       }}
     >
       <div className="flex items-center justify-around h-[72px] px-2">
@@ -28,30 +28,29 @@ export default function BottomNav() {
           <NavLink
             key={to}
             to={to}
-            end={to === '/program'}
+            end={to === '/programs'}
             className="flex-1 flex flex-col items-center justify-center gap-1"
             aria-label={label}
           >
             {({ isActive }) => (
               <>
                 <div
-                  className="flex items-center justify-center transition-colors"
+                  className="flex items-center justify-center transition-colors rounded-none"
                   style={{
                     width: 40,
                     height: 40,
-                    borderRadius: '50%',
-                    background: isActive ? '#F4845F' : 'transparent',
+                    background: isActive ? '#0F0F0E' : 'transparent',
                   }}
                 >
                   <Icon
                     size={20}
-                    strokeWidth={2}
-                    color={isActive ? '#FFFFFF' : '#8E8E93'}
+                    strokeWidth={1.5}
+                    color={isActive ? '#FFFFFF' : '#B5B2AA'}
                   />
                 </div>
                 <span
-                  className="text-[10px] font-medium"
-                  style={{ color: isActive ? '#1C1C1E' : '#8E8E93' }}
+                  className="text-[9px] font-medium uppercase tracking-[0.1em]"
+                  style={{ color: isActive ? '#0F0F0E' : '#B5B2AA' }}
                 >
                   {label}
                 </span>
@@ -65,19 +64,19 @@ export default function BottomNav() {
           {({ isActive }) => (
             <>
               <div
-                className="flex items-center justify-center rounded-full text-[14px] font-bold text-white transition-all"
+                className="flex items-center justify-center text-[12px] font-light text-white transition-all rounded-none"
                 style={{
-                  width: 36,
-                  height: 36,
-                  background: '#F4845F',
-                  border: isActive ? '2px solid #FFFFFF' : '2px solid transparent',
+                  width: 32,
+                  height: 32,
+                  background: '#0F0F0E',
+                  border: isActive ? '0.5px solid #FF5500' : '0.5px solid transparent',
                 }}
               >
                 {initial}
               </div>
               <span
-                className="text-[10px] font-medium"
-                style={{ color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.4)' }}
+                className="text-[9px] font-medium uppercase tracking-[0.1em]"
+                style={{ color: isActive ? '#0F0F0E' : '#B5B2AA' }}
               >
                 You
               </span>

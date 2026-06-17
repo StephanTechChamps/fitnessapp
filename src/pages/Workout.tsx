@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Plus, CheckCircle2, Clock, Timer } from 'lucide-react'
+import { Plus, Timer } from 'lucide-react'
 import { useWorkout } from '../contexts/WorkoutContext'
 import { useWorkouts } from '../hooks/useWorkouts'
 import ExerciseCard from '../components/ExerciseCard'
@@ -42,11 +42,11 @@ export default function Workout() {
 
   if (!workout) {
     return (
-      <div className="min-h-screen bg-[#F2F2F7] flex flex-col items-center justify-center gap-4 px-6 pb-nav">
-        <p className="text-[#8E8E93] text-[15px]">No active workout.</p>
+      <div className="min-h-screen bg-[#111110] flex flex-col items-center justify-center gap-4 px-6 pb-nav">
+        <p className="text-[#4A4844] text-[15px] font-light lowercase">no active workout.</p>
         <button
           onClick={() => dispatch({ type: 'START' })}
-          className="bg-[#F4845F] text-white px-8 py-3.5 rounded-[16px] text-[15px] font-semibold"
+          className="bg-[#FF5500] text-white px-8 py-[18px] w-full text-[11px] font-medium uppercase tracking-[0.2em] rounded-none"
         >
           Start Workout
         </button>
@@ -94,50 +94,47 @@ export default function Workout() {
   const totalSets = workout.exercises.reduce((n, ex) => n + ex.sets.length, 0)
 
   return (
-    <div className="min-h-screen bg-[#F2F2F7] pb-nav">
-      <div className="sticky top-0 z-10 bg-[#F2F2F7]/95 backdrop-blur-xl px-5 pt-14 pb-3 border-b border-[#E5E5EA]">
+    <div className="min-h-screen bg-[#111110] pb-nav">
+      {/* Sticky header */}
+      <div className="sticky top-0 z-10 bg-[#111110]/95 backdrop-blur px-6 pt-14 pb-4 border-b-[0.5px] border-[#2A2A28]">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
-            <h1 className="text-[17px] font-bold text-[#1C1C1E] tracking-tight leading-snug truncate">{workout.name}</h1>
+            <h1 className="text-[20px] font-extralight text-white lowercase tracking-[0.01em] truncate">{workout.name}</h1>
             <div className="flex items-center gap-3 mt-0.5">
-              <div className="flex items-center gap-1 text-[#8E8E93] text-[12px]">
-                <Clock size={11} />
-                <span>{timer}</span>
-              </div>
+              <span className="text-[11px] font-light text-[#4A4844] tracking-[0.05em]">{timer}</span>
               {totalSets > 0 && (
-                <span className="text-[12px] text-[#8E8E93]">{completedSets}/{totalSets} sets</span>
+                <span className="text-[11px] font-light text-[#4A4844] tracking-[0.05em]">{completedSets}/{totalSets} sets</span>
               )}
             </div>
           </div>
           <div className="flex items-center gap-2 flex-shrink-0">
             <button
               onClick={() => setRestActive(true)}
-              className="flex items-center gap-1.5 bg-white border border-[#E5E5EA] px-3 py-1.5 rounded-[12px] text-[13px] font-semibold text-[#636366]"
+              className="flex items-center gap-1.5 border-[0.5px] border-[#2A2A28] bg-[#1C1C1A] px-4 py-2 rounded-none text-[11px] font-medium uppercase tracking-[0.2em] text-white"
             >
-              <Timer size={14} />
+              <Timer size={12} className="text-[#FF5500]" />
               Rest
             </button>
             <button
               onClick={finish}
               disabled={finishing}
-              className="flex items-center gap-1.5 bg-[#30D158] text-white px-3 py-1.5 rounded-[12px] text-[13px] font-semibold disabled:opacity-60"
+              className="bg-[#FF5500] text-white px-4 py-2 rounded-none text-[11px] font-medium uppercase tracking-[0.2em] disabled:opacity-60"
             >
-              <CheckCircle2 size={14} />
               Finish
             </button>
           </div>
         </div>
       </div>
 
-      <div className="px-5 pt-4 flex flex-col gap-4">
+      <div className="px-6 pt-4 flex flex-col gap-4">
         {workout.exercises.length === 0 && (
-          <div className="bg-white shadow-sm rounded-[20px] p-8 text-center">
-            <p className="text-[#8E8E93] text-[14px]">Tap + to add your first exercise</p>
+          <div className="bg-[#1C1C1A] border-[0.5px] border-[#2A2A28] p-8 text-center">
+            <p className="text-[13px] font-light text-[#4A4844] lowercase">tap + to add your first exercise</p>
           </div>
         )}
 
         {workout.exercises.map((ex, exIdx) => (
-          <div key={`${ex.exerciseId}-${exIdx}`} className="bg-white shadow-sm rounded-[20px] overflow-hidden">
+          <div key={`${ex.exerciseId}-${exIdx}`} className="bg-[#1C1C1A] border-b-[0.5px] border-[#2A2A28] overflow-hidden">
             <div className="px-4 pt-4 pb-2">
               <ExerciseCard
                 exercise={{ id: parseInt(ex.exerciseId) || 0, name: ex.name, category: ex.category, imageUrl: ex.imageUrl }}
@@ -162,14 +159,14 @@ export default function Workout() {
             <div className="px-3 pb-3 flex gap-2">
               <button
                 onClick={() => dispatch({ type: 'ADD_SET', exerciseIndex: exIdx })}
-                className="flex-1 py-2 rounded-[12px] bg-[#ECECF1] text-[#8E8E93] text-[13px] font-semibold"
+                className="flex-1 py-2 bg-transparent text-[10px] font-medium uppercase tracking-[0.2em] text-[#4A4844] rounded-none"
               >
                 + Set
               </button>
               {ex.sets.length > 1 && (
                 <button
                   onClick={() => dispatch({ type: 'REMOVE_SET', exerciseIndex: exIdx, setIndex: ex.sets.length - 1 })}
-                  className="px-3 py-2 rounded-[12px] bg-[#ECECF1] text-[#AEAEB2] text-[13px] font-semibold"
+                  className="px-3 py-2 bg-transparent text-[10px] font-medium uppercase tracking-[0.2em] text-[#4A4844] rounded-none"
                 >
                   − Set
                 </button>
@@ -187,7 +184,7 @@ export default function Workout() {
       >
         <button
           onClick={() => { setSwapFor(null); setDrawerOpen(true) }}
-          className="w-14 h-14 bg-[#F4845F] rounded-full flex items-center justify-center shadow-lg text-white active:opacity-80 transition-opacity"
+          className="w-14 h-14 bg-[#FF5500] rounded-none flex items-center justify-center text-white active:opacity-80 transition-opacity"
         >
           <Plus size={26} strokeWidth={2.5} />
         </button>

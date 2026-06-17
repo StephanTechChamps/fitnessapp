@@ -39,64 +39,67 @@ export default function Progress() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F2F2F7] flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-[#F4845F] border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen bg-[#F8F7F4] flex items-center justify-center">
+        <div className="w-8 h-8 border-[0.5px] border-[#0F0F0E] border-t-transparent rounded-full animate-spin" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen pb-nav" style={{ background: 'linear-gradient(160deg, #F2F2F7 0%, #ECECF1 50%, #F2F2F7 100%)' }}>
+    <div className="min-h-screen bg-[#F8F7F4] pb-nav">
       <div className="px-6 pt-14 pb-6">
-        <h1 className="text-[38px] font-bold text-[#1C1C1E] tracking-tight">Progress</h1>
+        <h1 className="text-[44px] font-extralight text-[#0F0F0E] lowercase">progress</h1>
       </div>
 
-      <div className="px-5 mb-6 flex items-center justify-center">
+      {/* Circle ring — orange is the one accent */}
+      <div className="px-6 mb-6 flex items-center justify-center">
         <div className="relative flex items-center justify-center">
           <CircleRing
             percent={Math.min(100, (workouts.length / 50) * 100)}
-            color="#F4845F"
-            trackColor="#E5E5EA"
+            color="#FF5500"
+            trackColor="#E5E3DD"
             size={160}
             stroke={12}
           />
           <div className="absolute text-center">
-            <p className="text-[44px] font-bold text-[#1C1C1E] leading-none">{workouts.length}</p>
-            <p className="text-[12px] text-[#8E8E93] mt-1">sessions</p>
+            <p className="text-[44px] font-extralight text-[#0F0F0E] leading-none">{workouts.length}</p>
+            <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] mt-1">sessions</p>
           </div>
         </div>
       </div>
 
-      <div className="px-5 mb-6 grid grid-cols-2 gap-3">
-        <div className="bg-white shadow-sm rounded-[20px] px-4 py-4">
-          <p className="text-[28px] font-bold text-[#1C1C1E] leading-none">{totalSets}</p>
-          <p className="text-[12px] text-[#8E8E93] mt-1">Total sets done</p>
+      {/* Stat cards */}
+      <div className="px-6 mb-6 grid grid-cols-2 gap-3">
+        <div className="bg-white border-[0.5px] border-[#E5E3DD] px-4 py-4">
+          <p className="text-[28px] font-extralight text-[#0F0F0E] leading-none">{totalSets}</p>
+          <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] mt-1">Total sets done</p>
         </div>
-        <div className="bg-white shadow-sm rounded-[20px] px-4 py-4">
-          <p className="text-[28px] font-bold text-[#F4845F] leading-none">{exerciseNames.length}</p>
-          <p className="text-[12px] text-[#8E8E93] mt-1">Exercises tracked</p>
+        <div className="bg-white border-[0.5px] border-[#E5E3DD] px-4 py-4">
+          <p className="text-[28px] font-extralight text-[#0F0F0E] leading-none">{exerciseNames.length}</p>
+          <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] mt-1">Exercises tracked</p>
         </div>
       </div>
 
-      <div className="px-5">
+      <div className="px-6">
         {exerciseNames.length === 0 ? (
-          <div className="bg-white shadow-sm rounded-[20px] p-10 text-center">
-            <TrendingUp size={36} className="text-[#C7C7CC] mx-auto mb-3" />
-            <p className="text-[#8E8E93] text-[14px]">Complete some workouts to see your progress.</p>
+          <div className="border-[0.5px] border-[#E5E3DD] p-10 text-center">
+            <TrendingUp size={36} className="text-[#B5B2AA] mx-auto mb-3" />
+            <p className="text-[#B5B2AA] text-[13px] font-light lowercase">complete some workouts to see your progress.</p>
           </div>
         ) : (
           <>
+            {/* Exercise select — underline style */}
             <div className="mb-5">
-              <p className="text-[12px] font-semibold uppercase tracking-widest text-[#AEAEB2] mb-2">Exercise</p>
+              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] mb-2">Exercise</p>
               <div className="relative">
                 <select
                   value={selected}
                   onChange={(e) => setSelected(e.target.value)}
-                  className="w-full bg-white border border-[#E5E5EA] rounded-[16px] px-4 py-3.5 text-[15px] text-[#1C1C1E] focus:outline-none focus:border-[#F4845F] appearance-none transition-colors"
+                  className="w-full bg-transparent border-b-[0.5px] border-[#E5E3DD] rounded-none px-0 py-3 text-[15px] font-light text-[#0F0F0E] focus:outline-none appearance-none"
                 >
-                  <option value="" style={{ background: '#FFFFFF' }}>Select an exercise…</option>
+                  <option value="" style={{ background: '#F8F7F4' }}>Select an exercise…</option>
                   {exerciseNames.map((name) => (
-                    <option key={name} value={name} style={{ background: '#FFFFFF' }}>{name}</option>
+                    <option key={name} value={name} style={{ background: '#F8F7F4' }}>{name}</option>
                   ))}
                 </select>
               </div>
@@ -104,62 +107,65 @@ export default function Progress() {
 
             {selected && chartData.length > 0 && (
               <>
+                {/* Mini stats */}
                 <div className="grid grid-cols-3 gap-2.5 mb-5">
                   {[
                     { label: 'Personal Best', value: `${pb}kg` },
                     { label: 'Sessions', value: sessions },
                     { label: 'Last Session', value: `${lastWeight}kg` },
                   ].map(({ label, value }) => (
-                    <div key={label} className="bg-white shadow-sm rounded-[16px] p-3 text-center">
-                      <p className="text-[20px] font-bold text-[#1C1C1E] leading-none">{value}</p>
-                      <p className="text-[10px] text-[#8E8E93] mt-1 uppercase tracking-wide leading-tight">{label}</p>
+                    <div key={label} className="bg-white border-[0.5px] border-[#E5E3DD] p-3 text-center">
+                      <p className="text-[20px] font-extralight text-[#0F0F0E] leading-none">{value}</p>
+                      <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-[#B5B2AA] mt-1 leading-tight">{label}</p>
                     </div>
                   ))}
                 </div>
 
-                <div className="bg-white shadow-sm rounded-[20px] p-4 mb-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-widest text-[#AEAEB2] mb-4">
+                {/* Max weight chart */}
+                <div className="bg-white border-[0.5px] border-[#E5E3DD] p-4 mb-3">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] mb-4">
                     Max Weight (kg)
                   </p>
                   <ResponsiveContainer width="100%" height={180}>
                     <LineChart data={chartData} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E5EA" />
-                      <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#8E8E93' }} />
-                      <YAxis tick={{ fontSize: 11, fill: '#8E8E93' }} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E3DD" />
+                      <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#B5B2AA' }} />
+                      <YAxis tick={{ fontSize: 11, fill: '#B5B2AA' }} />
                       <Tooltip
-                        contentStyle={{ borderRadius: 12, border: '1px solid #E5E5EA', background: '#FFFFFF', color: '#1C1C1E', fontSize: 13 }}
+                        contentStyle={{ borderRadius: 0, border: '0.5px solid #E5E3DD', background: '#FFFFFF', color: '#0F0F0E', fontSize: 13 }}
                       />
                       <Line
                         type="monotone"
                         dataKey="weight"
-                        stroke="#F4845F"
-                        strokeWidth={2.5}
-                        dot={{ fill: '#F4845F', r: 4 }}
-                        activeDot={{ r: 6 }}
+                        stroke="#FF5500"
+                        strokeWidth={2}
+                        dot={{ fill: '#FF5500', r: 3 }}
+                        activeDot={{ r: 5 }}
                       />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
 
-                <div className="bg-white shadow-sm rounded-[20px] p-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-widest text-[#AEAEB2] mb-4">
+                {/* Volume chart */}
+                <div className="bg-white border-[0.5px] border-[#E5E3DD] p-4">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] mb-4">
                     Volume (reps × kg)
                   </p>
                   <ResponsiveContainer width="100%" height={180}>
                     <LineChart data={chartData} margin={{ top: 5, right: 5, bottom: 5, left: -10 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E5EA" />
-                      <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#8E8E93' }} />
-                      <YAxis tick={{ fontSize: 11, fill: '#8E8E93' }} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E3DD" />
+                      <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#B5B2AA' }} />
+                      <YAxis tick={{ fontSize: 11, fill: '#B5B2AA' }} />
                       <Tooltip
-                        contentStyle={{ borderRadius: 12, border: '1px solid #E5E5EA', background: '#FFFFFF', color: '#1C1C1E', fontSize: 13 }}
+                        contentStyle={{ borderRadius: 0, border: '0.5px solid #E5E3DD', background: '#FFFFFF', color: '#0F0F0E', fontSize: 13 }}
                       />
                       <Line
                         type="monotone"
                         dataKey="volume"
-                        stroke="#30D158"
-                        strokeWidth={2.5}
-                        dot={{ fill: '#30D158', r: 4 }}
-                        activeDot={{ r: 6 }}
+                        stroke="#636158"
+                        strokeWidth={2}
+                        dot={{ fill: '#636158', r: 3 }}
+                        activeDot={{ r: 5 }}
                       />
                     </LineChart>
                   </ResponsiveContainer>
@@ -168,7 +174,7 @@ export default function Progress() {
             )}
 
             {selected && chartData.length === 0 && (
-              <p className="text-center text-[#AEAEB2] py-10 text-[14px]">No data for this exercise yet.</p>
+              <p className="text-center text-[#B5B2AA] text-[13px] font-light lowercase py-10">no data for this exercise yet.</p>
             )}
           </>
         )}

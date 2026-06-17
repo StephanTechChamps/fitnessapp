@@ -1,14 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-dark-bg: #1C1C1E;
-  --color-dark-surface: #2C2C2E;
-  --color-dark-elevated: #3A3A3C;
-  --color-light-bg: #F2F2F7;
-  --color-accent: #F4845F;
-  --color-accent-soft: #F4A58A;
-  --color-green: #30D158;
-  --color-red: #FF453A;
+  --color-bg:          #F8F7F4;
+  --color-bg-dark:     #111110;
+  --color-surface:     #FFFFFF;
+  --color-surface-dark:#1C1C1A;
+  --color-ink:         #0F0F0E;
+  --color-ink-mid:     #636158;
+  --color-ink-muted:   #B5B2AA;
+  --color-border:      #E5E3DD;
+  --color-border-dark: #2A2A28;
+  --color-orange:      #FF5500;
 }
 
 * {
@@ -24,9 +26,9 @@ html, body, #root {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
-  background-color: #F2F2F7;
-  color: #1C1C1E;
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  background-color: #F8F7F4;
+  color: #0F0F0E;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -43,3 +45,11 @@ input[type="number"]::-webkit-outer-spin-button {
 .safe-bottom {
   padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }
+
+/* APEX type utilities */
+.t-hero    { font-size: 44px; font-weight: 200; text-transform: lowercase; letter-spacing: 0.01em; line-height: 1.05; }
+.t-title   { font-size: 28px; font-weight: 300; line-height: 1.2; }
+.t-eyebrow { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.18em; color: #B5B2AA; }
+.t-body    { font-size: 15px; font-weight: 300; line-height: 1.65; letter-spacing: 0.01em; }
+.t-stat    { font-size: 44px; font-weight: 200; letter-spacing: -0.02em; line-height: 1; }
+.t-cta     { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.2em; }

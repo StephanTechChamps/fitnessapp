@@ -1,0 +1,88 @@
+import type { Program } from './buffDudes'
+
+export const PHUL: Program = {
+  id: 'phul',
+  name: 'PHUL',
+  fullName: 'Power Hypertrophy Upper Lower',
+  author: 'Brandon Campbell',
+  daysPerWeek: 4,
+  schedule: {
+    monday: 'day_1',
+    tuesday: 'day_2',
+    wednesday: 'rest',
+    thursday: 'day_3',
+    friday: 'day_4',
+    saturday: 'rest',
+    sunday: 'rest',
+  },
+  phases: [
+    {
+      id: 'phul_main',
+      name: 'PHUL — Weekly Cycle',
+      weeks: null,
+      note: 'Repeat weekly. Increase weight when you complete all sets at the top of the rep range. Power days focus on strength (3–5 reps), hypertrophy days on volume (8–12 reps).',
+      days: [
+        {
+          day: 1,
+          focus: 'Upper Power',
+          type: 'power',
+          note: 'Heavy weights with good form — these are your strength benchmark lifts. Track your numbers every week.',
+          exercises: [
+            { name: 'Barbell Bench Press', sets: 3, reps: '3–5', type: 'compound', primaryMuscles: ['chest'], secondaryMuscles: ['triceps', 'front deltoid'] },
+            { name: 'Incline Dumbbell Bench Press', sets: 3, reps: '6–10', type: 'compound', primaryMuscles: ['upper chest'], secondaryMuscles: ['triceps', 'front deltoid'] },
+            { name: 'Bent Over Barbell Row', sets: 3, reps: '3–5', type: 'compound', primaryMuscles: ['back'], secondaryMuscles: ['biceps', 'rear deltoid'] },
+            { name: 'Seated Cable Row', sets: 3, reps: '6–10', type: 'compound', primaryMuscles: ['back'], secondaryMuscles: ['biceps'] },
+            { name: 'Overhead Barbell Press', sets: 2, reps: '5–8', type: 'compound', primaryMuscles: ['shoulders'], secondaryMuscles: ['triceps'] },
+            { name: 'Barbell Curl', sets: 2, reps: '6–10', type: 'isolation', primaryMuscles: ['biceps'] },
+            { name: 'Skullcrushers (EZ Bar)', sets: 2, reps: '6–10', type: 'isolation', primaryMuscles: ['triceps'] },
+          ],
+        },
+        {
+          day: 2,
+          focus: 'Lower Power',
+          type: 'power',
+          note: 'Squats and deadlifts are your primary movers — strength benchmarks. Go heavy, rest fully between sets.',
+          exercises: [
+            { name: 'Squat', sets: 3, reps: '3–5', type: 'compound', primaryMuscles: ['quads', 'glutes'], secondaryMuscles: ['hamstrings', 'lower back'] },
+            { name: 'Romanian Deadlift', sets: 3, reps: '3–5', type: 'compound', primaryMuscles: ['hamstrings', 'glutes'], secondaryMuscles: ['lower back'] },
+            { name: 'Leg Press', sets: 3, reps: '10–15', type: 'compound', primaryMuscles: ['quads', 'glutes'], secondaryMuscles: ['hamstrings'] },
+            { name: 'Leg Curl (Machine)', sets: 3, reps: '6–10', type: 'isolation', primaryMuscles: ['hamstrings'], homeAlt: 'Nordic Hamstring Curl' },
+            { name: 'Standing Calf Raise', sets: 4, reps: '6–10', type: 'isolation', primaryMuscles: ['calves'] },
+          ],
+        },
+        {
+          day: 3,
+          focus: 'Upper Hypertrophy',
+          type: 'hypertrophy',
+          note: 'Higher reps, shorter rest, more volume. Focus on the mind-muscle connection — feel each rep.',
+          exercises: [
+            { name: 'Incline Barbell Bench Press', sets: 4, reps: '8–12', type: 'compound', primaryMuscles: ['upper chest'], secondaryMuscles: ['triceps', 'front deltoid'] },
+            { name: 'Flat Dumbbell Bench Press', sets: 4, reps: '8–12', type: 'compound', primaryMuscles: ['chest'], secondaryMuscles: ['triceps'] },
+            { name: 'Cable Fly', sets: 3, reps: '12–15', type: 'isolation', primaryMuscles: ['chest'], homeAlt: 'Dumbbell Fly' },
+            { name: 'Seated Cable Row', sets: 4, reps: '8–12', type: 'compound', primaryMuscles: ['back'], secondaryMuscles: ['biceps'] },
+            { name: 'One Arm Dumbbell Row', sets: 4, reps: '8–12', type: 'compound', primaryMuscles: ['back'], secondaryMuscles: ['biceps'] },
+            { name: 'Dumbbell Lateral Raise', sets: 3, reps: '12–15', type: 'isolation', primaryMuscles: ['lateral deltoid'] },
+            { name: 'Seated Dumbbell Overhead Press', sets: 3, reps: '8–12', type: 'compound', primaryMuscles: ['shoulders'], secondaryMuscles: ['triceps'] },
+            { name: 'Incline Dumbbell Curl', sets: 3, reps: '8–12', type: 'isolation', primaryMuscles: ['biceps'] },
+            { name: 'Cable Tricep Pushdown', sets: 3, reps: '8–12', type: 'isolation', primaryMuscles: ['triceps'], homeAlt: 'Overhead Dumbbell Tricep Extension' },
+          ],
+        },
+        {
+          day: 4,
+          focus: 'Lower Hypertrophy',
+          type: 'hypertrophy',
+          note: 'More volume on legs. Focus on full range of motion. The leg extension / leg curl finish creates a strong pump.',
+          exercises: [
+            { name: 'Front Squat', sets: 4, reps: '8–12', type: 'compound', primaryMuscles: ['quads'], secondaryMuscles: ['glutes', 'core'], homeAlt: 'Goblet Squat' },
+            { name: 'Barbell Lunge', sets: 4, reps: '8–12', type: 'compound', primaryMuscles: ['quads', 'glutes'], secondaryMuscles: ['hamstrings'], homeAlt: 'Dumbbell Lunge' },
+            { name: 'Leg Extension (Machine)', sets: 4, reps: '10–15', type: 'isolation', primaryMuscles: ['quads'], homeAlt: 'Sissy Squat' },
+            { name: 'Leg Curl (Machine)', sets: 4, reps: '10–15', type: 'isolation', primaryMuscles: ['hamstrings'], homeAlt: 'Nordic Hamstring Curl' },
+            { name: 'Romanian Deadlift', sets: 3, reps: '8–12', type: 'compound', primaryMuscles: ['hamstrings', 'glutes'], secondaryMuscles: ['lower back'] },
+            { name: 'Seated Calf Raise', sets: 4, reps: '8–12', type: 'isolation', primaryMuscles: ['calves'] },
+            { name: 'Standing Calf Raise', sets: 3, reps: '12–15', type: 'isolation', primaryMuscles: ['calves'] },
+          ],
+        },
+      ],
+    },
+  ],
+}

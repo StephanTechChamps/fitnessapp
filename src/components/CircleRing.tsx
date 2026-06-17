@@ -8,8 +8,8 @@ interface Props {
 
 export default function CircleRing({
   percent,
-  color = '#F4845F',
-  trackColor = '#E5E5EA',
+  color = '#1A1A1A',
+  trackColor = '#EBEBEB',
   size = 160,
   stroke = 10,
 }: Props) {

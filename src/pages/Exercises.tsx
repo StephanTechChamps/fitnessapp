@@ -41,34 +41,39 @@ export default function Exercises() {
   )
 
   return (
-    <div className="min-h-screen bg-[#F2F2F7] pb-nav">
-      <div className="sticky top-0 z-10 bg-[#F2F2F7]/95 backdrop-blur-xl px-5 pt-14 pb-3">
-        <h1 className="text-[28px] font-bold text-[#1C1C1E] tracking-tight mb-3">Exercises</h1>
+    <div className="min-h-screen bg-[#F8F7F4] pb-nav">
+      {/* Sticky header */}
+      <div className="sticky top-0 z-10 bg-[#F8F7F4]/95 backdrop-blur px-6 pt-14 pb-3">
+        <h1 className="text-[44px] font-extralight text-[#0F0F0E] lowercase mb-4">exercises</h1>
 
-        <div className="flex items-center gap-2 bg-white rounded-[14px] px-3 py-2.5 shadow-sm mb-3">
-          <Search size={16} className="text-[#C7C7CC] flex-shrink-0" />
+        {/* Search — underline style */}
+        <div className="flex items-center gap-2 border-b-[0.5px] border-[#E5E3DD] bg-transparent px-0 py-3 mb-4">
+          <Search size={15} className="text-[#B5B2AA] flex-shrink-0" />
           <input
             type="text"
             placeholder="Search exercises…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="flex-1 bg-transparent text-[15px] text-[#1C1C1E] placeholder-[#C7C7CC] focus:outline-none"
+            className="flex-1 bg-transparent text-[15px] font-light text-[#0F0F0E] placeholder-[#B5B2AA] focus:outline-none"
           />
-          {(searching || loading) && <Loader2 size={14} className="animate-spin text-[#F4845F]" />}
+          {(searching || loading) && <Loader2 size={14} className="animate-spin text-[#B5B2AA]" />}
           {query && !searching && (
-            <button onClick={() => setQuery('')} className="text-[#C7C7CC]">
+            <button onClick={() => setQuery('')} className="text-[#B5B2AA]">
               <X size={14} />
             </button>
           )}
         </div>
 
+        {/* Category pills */}
         <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setCategory(cat)}
-              className={`flex-shrink-0 text-[12px] font-semibold px-3 py-1.5 rounded-full transition-colors ${
-                category === cat ? 'bg-[#F4845F] text-white' : 'bg-white text-[#8E8E93] shadow-sm'
+              className={`flex-shrink-0 text-[10px] font-medium uppercase tracking-[0.14em] px-3 py-1.5 rounded-[6px] transition-colors ${
+                category === cat
+                  ? 'bg-[#0F0F0E] text-white'
+                  : 'border-[0.5px] border-[#E5E3DD] text-[#B5B2AA] bg-transparent'
               }`}
             >
               {cat}
@@ -77,21 +82,21 @@ export default function Exercises() {
         </div>
       </div>
 
-      <div className="px-5">
+      <div className="px-6">
         {loading ? (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-[0.5px]">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="bg-white rounded-[16px] h-16 animate-pulse" />
+              <div key={i} className="bg-[#E5E3DD] animate-pulse h-12 rounded-none" />
             ))}
           </div>
         ) : filtered.length === 0 ? (
-          <p className="text-center text-[#8E8E93] py-12">No exercises found</p>
+          <p className="text-center text-[#B5B2AA] text-[13px] font-light lowercase py-12">no exercises found</p>
         ) : (
-          <div className="bg-white shadow-sm rounded-[20px] overflow-hidden">
+          <div>
             {filtered.map((ex, i) => (
               <div
                 key={ex.id}
-                className={`px-4 py-3 ${i < filtered.length - 1 ? 'border-b border-[#E5E5EA]' : ''}`}
+                className={`py-3.5 ${i < filtered.length - 1 ? 'border-b-[0.5px] border-[#E5E3DD]' : ''}`}
               >
                 <ExerciseCard exercise={ex} mode="library" />
               </div>

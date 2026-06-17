@@ -12,14 +12,14 @@ export default function ExercisePhoto({ img, alt }: Props) {
 
   if (!img || errored) {
     return (
-      <div className="w-full h-full min-h-[118px] bg-[#1C1C1E] flex items-center justify-center">
+      <div className="w-full h-full min-h-[118px] bg-[#1A1A1A] flex items-center justify-center">
         <Dumbbell size={32} className="text-white/70" />
       </div>
     )
   }
 
   return (
-    <div className="w-full h-full min-h-[118px] bg-[#1C1C1E] overflow-hidden">
+    <div className="w-full h-full min-h-[118px] bg-[#1A1A1A] overflow-hidden">
       <img
         src={img}
         alt={alt}

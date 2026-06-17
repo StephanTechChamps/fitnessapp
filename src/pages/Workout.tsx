@@ -42,8 +42,8 @@ export default function Workout() {
 
   if (!workout) {
     return (
-      <div className="min-h-screen bg-[#111110] flex flex-col items-center justify-center gap-4 px-6 pb-nav">
-        <p className="text-[#4A4844] text-[15px] font-light lowercase">no active workout.</p>
+      <div className="min-h-screen bg-[#F8F7F4] flex flex-col items-center justify-center gap-4 px-6 pb-nav">
+        <p className="text-[#636158] text-[15px] font-light lowercase">no active workout.</p>
         <button
           onClick={() => dispatch({ type: 'START' })}
           className="bg-[#FF5500] text-white px-8 py-[18px] w-full text-[11px] font-medium uppercase tracking-[0.2em] rounded-none"
@@ -94,23 +94,23 @@ export default function Workout() {
   const totalSets = workout.exercises.reduce((n, ex) => n + ex.sets.length, 0)
 
   return (
-    <div className="min-h-screen bg-[#111110] pb-nav">
+    <div className="min-h-screen bg-[#F8F7F4] pb-nav">
       {/* Sticky header */}
-      <div className="sticky top-0 z-10 bg-[#111110]/95 backdrop-blur px-6 pt-14 pb-4 border-b-[0.5px] border-[#2A2A28]">
+      <div className="sticky top-0 z-10 bg-[#F8F7F4]/95 backdrop-blur px-6 pt-14 pb-4 border-b-[0.5px] border-[#E5E3DD]">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
-            <h1 className="text-[20px] font-extralight text-white lowercase tracking-[0.01em] truncate">{workout.name}</h1>
+            <h1 className="text-[20px] font-extralight text-[#0F0F0E] lowercase tracking-[0.01em] truncate">{workout.name}</h1>
             <div className="flex items-center gap-3 mt-0.5">
-              <span className="text-[11px] font-light text-[#4A4844] tracking-[0.05em]">{timer}</span>
+              <span className="text-[11px] font-light text-[#636158] tracking-[0.05em]">{timer}</span>
               {totalSets > 0 && (
-                <span className="text-[11px] font-light text-[#4A4844] tracking-[0.05em]">{completedSets}/{totalSets} sets</span>
+                <span className="text-[11px] font-light text-[#636158] tracking-[0.05em]">{completedSets}/{totalSets} sets</span>
               )}
             </div>
           </div>
           <div className="flex items-center gap-2 flex-shrink-0">
             <button
               onClick={() => setRestActive(true)}
-              className="flex items-center gap-1.5 border-[0.5px] border-[#2A2A28] bg-[#1C1C1A] px-4 py-2 rounded-none text-[11px] font-medium uppercase tracking-[0.2em] text-white"
+              className="flex items-center gap-1.5 border-[0.5px] border-[#E5E3DD] bg-white px-4 py-2 rounded-none text-[11px] font-medium uppercase tracking-[0.2em] text-[#0F0F0E]"
             >
               <Timer size={12} className="text-[#FF5500]" />
               Rest
@@ -128,13 +128,13 @@ export default function Workout() {
 
       <div className="px-6 pt-4 flex flex-col gap-4">
         {workout.exercises.length === 0 && (
-          <div className="bg-[#1C1C1A] border-[0.5px] border-[#2A2A28] p-8 text-center">
-            <p className="text-[13px] font-light text-[#4A4844] lowercase">tap + to add your first exercise</p>
+          <div className="bg-white border-[0.5px] border-[#E5E3DD] p-8 text-center">
+            <p className="text-[13px] font-light text-[#636158] lowercase">tap + to add your first exercise</p>
           </div>
         )}
 
         {workout.exercises.map((ex, exIdx) => (
-          <div key={`${ex.exerciseId}-${exIdx}`} className="bg-[#1C1C1A] border-b-[0.5px] border-[#2A2A28] overflow-hidden">
+          <div key={`${ex.exerciseId}-${exIdx}`} className="bg-white border-b-[0.5px] border-[#E5E3DD] overflow-hidden">
             <div className="px-4 pt-4 pb-2">
               <ExerciseCard
                 exercise={{ id: parseInt(ex.exerciseId) || 0, name: ex.name, category: ex.category, imageUrl: ex.imageUrl }}
@@ -159,14 +159,14 @@ export default function Workout() {
             <div className="px-3 pb-3 flex gap-2">
               <button
                 onClick={() => dispatch({ type: 'ADD_SET', exerciseIndex: exIdx })}
-                className="flex-1 py-2 bg-transparent text-[10px] font-medium uppercase tracking-[0.2em] text-[#4A4844] rounded-none"
+                className="flex-1 py-2 bg-transparent text-[10px] font-medium uppercase tracking-[0.2em] text-[#636158] rounded-none"
               >
                 + Set
               </button>
               {ex.sets.length > 1 && (
                 <button
                   onClick={() => dispatch({ type: 'REMOVE_SET', exerciseIndex: exIdx, setIndex: ex.sets.length - 1 })}
-                  className="px-3 py-2 bg-transparent text-[10px] font-medium uppercase tracking-[0.2em] text-[#4A4844] rounded-none"
+                  className="px-3 py-2 bg-transparent text-[10px] font-medium uppercase tracking-[0.2em] text-[#636158] rounded-none"
                 >
                   − Set
                 </button>

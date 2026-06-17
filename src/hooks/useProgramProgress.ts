@@ -1,7 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
+import { db } from '../lib/firebase'
 import { getProgram } from '../data/programs'
+import { useAuth } from './useAuth'
 
-interface CurrentProgress {
+export interface CurrentProgress {
   programId: string
   programName: string
   phaseId: string
@@ -10,51 +13,93 @@ interface CurrentProgress {
   focus: string
 }
 
-const CURRENT_KEY = 'programCurrent_v3'
-const COMPLETED_KEY = 'programCompletedSessions_v3'
+// localStorage keys — kept as a fast-read cache so the UI loads instantly,
+// then Firestore is the source of truth that survives everything else.
+const LS_CURRENT = 'programCurrent_v3'
+const LS_COMPLETED = 'programCompletedSessions_v3'
 
-function load<T>(key: string, fallback: T): T {
-  try {
-    const raw = localStorage.getItem(key)
-    return raw ? JSON.parse(raw) : fallback
-  } catch {
-    return fallback
-  }
+function lsRead<T>(key: string, fallback: T): T {
+  try { const r = localStorage.getItem(key); return r ? JSON.parse(r) : fallback } catch { return fallback }
 }
-
-function save(key: string, value: unknown) {
-  try { localStorage.setItem(key, JSON.stringify(value)) } catch {}
+function lsWrite(key: string, v: unknown) {
+  try { localStorage.setItem(key, JSON.stringify(v)) } catch {}
 }
 
 function sessionKey(programId: string, phaseId: string, week: number, day: number) {
   return `${programId}|${phaseId}|${week}|${day}`
 }
 
+// ─── Current program position ─────────────────────────────────────────────────
+
 export function useProgramProgress() {
-  const [progress, setProgress] = useState<CurrentProgress | null>(() => load(CURRENT_KEY, null))
+  const { user } = useAuth()
+  const [progress, setProgress] = useState<CurrentProgress | null>(() => lsRead(LS_CURRENT, null))
+
+  // On mount, sync from Firestore (overwrites stale localStorage cache).
+  useEffect(() => {
+    if (!user) return
+    getDoc(doc(db, 'users', user.uid, 'programMeta', 'current'))
+      .then((snap) => {
+        if (snap.exists()) {
+          const data = snap.data() as CurrentProgress
+          setProgress(data)
+          lsWrite(LS_CURRENT, data)
+        }
+      })
+      .catch(() => {/* offline — use localStorage cache */})
+  }, [user])
 
   function saveSession(p: CurrentProgress) {
     setProgress(p)
-    save(CURRENT_KEY, p)
+    lsWrite(LS_CURRENT, p)
+    if (user) {
+      setDoc(doc(db, 'users', user.uid, 'programMeta', 'current'), p)
+        .catch(() => {/* will sync next time they're online */})
+    }
   }
 
   function clear() {
     setProgress(null)
-    try { localStorage.removeItem(CURRENT_KEY) } catch {}
+    lsWrite(LS_CURRENT, null)
+    if (user) {
+      setDoc(doc(db, 'users', user.uid, 'programMeta', 'current'), {})
+        .catch(() => {})
+    }
   }
 
   return { progress, saveSession, clear }
 }
 
+// ─── Completed sessions ───────────────────────────────────────────────────────
+
 export function useCompletedSessions() {
-  const [keys, setKeys] = useState<string[]>(() => load(COMPLETED_KEY, []))
+  const { user } = useAuth()
+  const [keys, setKeys] = useState<string[]>(() => lsRead(LS_COMPLETED, []))
+
+  // Sync from Firestore on mount.
+  useEffect(() => {
+    if (!user) return
+    getDoc(doc(db, 'users', user.uid, 'programMeta', 'completed'))
+      .then((snap) => {
+        if (snap.exists()) {
+          const data = (snap.data().keys ?? []) as string[]
+          setKeys(data)
+          lsWrite(LS_COMPLETED, data)
+        }
+      })
+      .catch(() => {})
+  }, [user])
 
   function markComplete(programId: string, phaseId: string, week: number, day: number) {
     const k = sessionKey(programId, phaseId, week, day)
     if (keys.includes(k)) return
     const next = [...keys, k]
     setKeys(next)
-    save(COMPLETED_KEY, next)
+    lsWrite(LS_COMPLETED, next)
+    if (user) {
+      setDoc(doc(db, 'users', user.uid, 'programMeta', 'completed'), { keys: next })
+        .catch(() => {})
+    }
   }
 
   function isComplete(programId: string, phaseId: string, week: number, day: number) {
@@ -68,9 +113,8 @@ export function useCompletedSessions() {
   return { markComplete, isComplete, completedCount: keys.length, completedFor }
 }
 
-// Next session in schedule order. For phases with a fixed week list, walk
-// day → next week → next phase. For ongoing phases (weeks === null), loop to
-// week+1 day 1 indefinitely.
+// ─── Schedule helpers (no storage) ───────────────────────────────────────────
+
 export function getNextSession(programId: string, phaseId: string, week: number, day: number) {
   const program = getProgram(programId)
   const phase = program?.phases.find((p) => p.id === phaseId)
@@ -81,7 +125,6 @@ export function getNextSession(programId: string, phaseId: string, week: number,
     return { programId, phaseId, week, dayNum: phase.days[dayIdx + 1].day }
   }
 
-  // Ongoing weekly cycle — repeat forever.
   if (phase.weeks === null) {
     return { programId, phaseId, week: week + 1, dayNum: phase.days[0].day }
   }
@@ -101,7 +144,6 @@ export function getNextSession(programId: string, phaseId: string, week: number,
   return null
 }
 
-// Finite session total for a program, or null if it runs indefinitely.
 export function totalSessions(programId: string): number | null {
   const program = getProgram(programId)
   if (!program) return 0

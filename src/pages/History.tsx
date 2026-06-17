@@ -26,13 +26,13 @@ export default function History() {
   const today = new Date().toISOString().split('T')[0]
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4] pb-nav">
+    <div className="min-h-screen bg-[#F8F7F4] pb-nav apex-page">
       <div className="px-6 pt-14 pb-6">
         <h1 className="text-[44px] font-extralight text-[#0F0F0E] lowercase">history</h1>
       </div>
 
       {/* Calendar card */}
-      <div className="mx-6 mb-5 bg-white border-[0.5px] border-[#E5E3DD] overflow-hidden">
+      <div className="mx-6 mb-5 bg-white border-[0.5px] border-[#E5E3DD] overflow-hidden apex-fade">
         <div className="px-5 pt-4 pb-2">
           <div className="flex items-center justify-between mb-4">
             <button
@@ -93,7 +93,7 @@ export default function History() {
             <p className="text-[#B5B2AA] text-[13px] font-light lowercase">no workouts yet.</p>
           </div>
         ) : (
-          <div>
+          <div className="apex-stagger">
             {workouts.map((w, i) => {
               const totalSets = w.exercises.reduce((n, ex) => n + ex.sets.length, 0)
               const doneSets = w.exercises.reduce((n, ex) => n + ex.sets.filter((s) => s.completed).length, 0)

@@ -35,7 +35,7 @@ export default function BottomNav() {
             {({ isActive }) => (
               <>
                 <div
-                  className="flex items-center justify-center transition-colors rounded-none"
+                  className="flex items-center justify-center transition-colors transition-all duration-150 rounded-none"
                   style={{
                     width: 40,
                     height: 40,
@@ -64,7 +64,7 @@ export default function BottomNav() {
           {({ isActive }) => (
             <>
               <div
-                className="flex items-center justify-center text-[12px] font-light text-white transition-all rounded-none"
+                className="flex items-center justify-center text-[12px] font-light text-white transition-all duration-150 rounded-none"
                 style={{
                   width: 32,
                   height: 32,

@@ -39,7 +39,7 @@ export interface Program {
 
 export const BUFF_DUDES: Program = {
   id: "buff_dudes",
-  name: "Buff Dudes 12 Week Program",
+  name: "Buff Dudes Program",
   edition: "3rd Edition",
   phases: [
     {

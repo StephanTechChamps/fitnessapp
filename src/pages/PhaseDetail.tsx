@@ -72,7 +72,7 @@ export default function PhaseDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4] pb-nav">
+    <div className="min-h-screen bg-[#F8F7F4] pb-nav apex-page">
       {/* Sticky header */}
       <div className="sticky top-0 z-10 bg-[#F8F7F4] px-6 pt-14 pb-5 border-b-[0.5px] border-[#E5E3DD]">
         <button
@@ -111,7 +111,7 @@ export default function PhaseDetail() {
           <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#636158] pt-6 pb-2">
             Week {week}
           </p>
-          <div>
+          <div className="apex-stagger">
             {phase.days.map((day, i) => dayRow(week, day, i === phase.days.length - 1))}
           </div>
         </div>

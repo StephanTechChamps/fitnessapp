@@ -51,7 +51,7 @@ export default function ExerciseDrawer({ open, onClose, onSelect, filterCategory
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <div className="absolute inset-0 bg-black/30" onClick={onClose} />
-      <div className="relative bg-[#F8F7F4] rounded-t-none flex flex-col max-h-[88vh] border-[0.5px] border-[#E5E3DD]">
+      <div className="relative bg-[#F8F7F4] rounded-t-none flex flex-col max-h-[88vh] border-[0.5px] border-[#E5E3DD] apex-page">
         <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b-[0.5px] border-[#E5E3DD]">
           <h2 className="text-[15px] font-medium text-[#0F0F0E] uppercase tracking-[0.2em]">{title}</h2>
           <button

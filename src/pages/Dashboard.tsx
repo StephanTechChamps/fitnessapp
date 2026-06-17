@@ -53,7 +53,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4] pb-nav">
+    <div className="min-h-screen bg-[#F8F7F4] pb-nav apex-page">
       {/* Header */}
       <div className="px-6 pt-14 pb-4 flex items-baseline justify-between border-b-[0.5px] border-[#E5E3DD]">
         <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#0F0F0E]">FitLog</span>
@@ -90,6 +90,7 @@ export default function Dashboard() {
       {/* This week */}
       <div className="px-6 pt-6 pb-2 border-b-[0.5px] border-[#E5E3DD]">
         <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] mb-3">This Week</p>
+        <div className="apex-stagger">
         {weekRows.map((row, i) => {
           const isDone = row.dayNum !== null && phase
             ? isComplete(activeProgram.id, phase.id, curWeek, row.dayNum)
@@ -117,13 +118,14 @@ export default function Dashboard() {
             </button>
           )
         })}
+        </div>
       </div>
 
       {/* Single primary CTA */}
       <div className="px-6 pt-6 pb-3">
         <button
           onClick={startToday}
-          className="w-full bg-[#22E8E0] text-[#0F0F0E] py-[18px] t-cta active:opacity-75 transition-opacity"
+          className="w-full bg-[#22E8E0] text-[#0F0F0E] py-[18px] t-cta active:opacity-75 transition-opacity active:scale-[0.97] transition-transform duration-150"
         >
           Start Today's Workout
         </button>

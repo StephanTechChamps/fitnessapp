@@ -49,7 +49,7 @@ export default function RestTimer({ onDismiss }: Props) {
   const secs = remaining % 60
 
   return (
-    <div className="fixed inset-x-0 z-30 px-4" style={{ bottom: 'calc(4.5rem + max(0.5rem, env(safe-area-inset-bottom)) + 0.5rem)' }}>
+    <div className="fixed inset-x-0 z-30 px-4 apex-fade" style={{ bottom: 'calc(4.5rem + max(0.5rem, env(safe-area-inset-bottom)) + 0.5rem)' }}>
       <div className="bg-[#1C1C1A] border-[0.5px] border-[#2A2A28] overflow-hidden">
         <div className="h-[1px] bg-[#2A2A28]">
           <div

@@ -7,7 +7,7 @@ export default function Programs() {
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4] pb-nav">
+    <div className="min-h-screen bg-[#F8F7F4] pb-nav apex-page">
       {/* Header */}
       <div className="px-6 pt-14 pb-6">
         <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] mb-2">
@@ -19,7 +19,7 @@ export default function Programs() {
       </div>
 
       {/* Programs list */}
-      <div className="px-6">
+      <div className="px-6 apex-stagger">
         {PROGRAMS.map((p) => {
           const total = totalSessions(p.id)
           const daysPerWeek = p.daysPerWeek ?? Math.max(...p.phases.map((ph) => ph.days.length))

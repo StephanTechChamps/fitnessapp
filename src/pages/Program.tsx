@@ -16,7 +16,7 @@ export default function Program() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4] pb-nav">
+    <div className="min-h-screen bg-[#F8F7F4] pb-nav apex-page">
       {/* Header */}
       <div className="px-6 pt-14 pb-7">
         <button
@@ -39,7 +39,7 @@ export default function Program() {
       </div>
 
       {/* Phases list */}
-      <div className="px-6">
+      <div className="px-6 apex-stagger">
         {program.phases.map((phase, i) => (
           <button
             key={phase.id}

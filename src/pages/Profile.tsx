@@ -46,7 +46,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4] pb-nav">
+    <div className="min-h-screen bg-[#F8F7F4] pb-nav apex-page">
       {/* Header */}
       <div className="flex items-center justify-between px-6 pt-14 pb-4 border-b-[0.5px] border-[#E5E3DD]">
         <button
@@ -115,7 +115,7 @@ export default function Profile() {
       <div className="px-6 border-t-[0.5px] border-[#E5E3DD] pt-6 pb-6">
         <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] mb-5">Stats</p>
 
-        <div className="flex flex-col gap-0">
+        <div className="flex flex-col gap-0 apex-stagger">
           {[
             { value: workouts.length.toString(), label: 'workouts logged' },
             { value: completedCount.toString(), label: 'program sessions done' },

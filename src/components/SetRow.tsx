@@ -88,7 +88,7 @@ export default function SetRow({ setNumber, set, onChange, onToggle }: Props) {
 
       <button
         onClick={onToggle}
-        className={`w-7 h-7 border-[0.5px] flex items-center justify-center transition-colors flex-shrink-0 ${
+        className={`w-7 h-7 border-[0.5px] flex items-center justify-center transition-colors flex-shrink-0 transition-all duration-150 active:scale-110 ${
           set.completed
             ? 'border-[#22E8E0] bg-[#22E8E0] text-[#0F0F0E]'
             : 'border-[#2A2A28] bg-transparent text-[#4A4844]'

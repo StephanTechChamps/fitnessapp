@@ -46,7 +46,7 @@ export default function Progress() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4] pb-nav">
+    <div className="min-h-screen bg-[#F8F7F4] pb-nav apex-page">
       <div className="px-6 pt-14 pb-6">
         <h1 className="text-[44px] font-extralight text-[#0F0F0E] lowercase">progress</h1>
       </div>
@@ -69,7 +69,7 @@ export default function Progress() {
       </div>
 
       {/* Stat cards */}
-      <div className="px-6 mb-6 grid grid-cols-2 gap-3">
+      <div className="px-6 mb-6 grid grid-cols-2 gap-3 apex-stagger">
         <div className="bg-white border-[0.5px] border-[#E5E3DD] px-4 py-4">
           <p className="text-[28px] font-extralight text-[#0F0F0E] leading-none">{totalSets}</p>
           <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] mt-1">Total sets done</p>

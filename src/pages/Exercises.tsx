@@ -41,7 +41,7 @@ export default function Exercises() {
   )
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4] pb-nav">
+    <div className="min-h-screen bg-[#F8F7F4] pb-nav apex-page">
       {/* Sticky header */}
       <div className="sticky top-0 z-10 bg-[#F8F7F4]/95 backdrop-blur px-6 pt-14 pb-3">
         <h1 className="text-[44px] font-extralight text-[#0F0F0E] lowercase mb-4">exercises</h1>
@@ -92,7 +92,7 @@ export default function Exercises() {
         ) : filtered.length === 0 ? (
           <p className="text-center text-[#B5B2AA] text-[13px] font-light lowercase py-12">no exercises found</p>
         ) : (
-          <div>
+          <div className="apex-stagger">
             {filtered.map((ex, i) => (
               <div
                 key={ex.id}

@@ -98,7 +98,7 @@ export default function Workout() {
   const totalSets = workout.exercises.reduce((n, ex) => n + ex.sets.length, 0)
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4] pb-nav">
+    <div className="min-h-screen bg-[#F8F7F4] pb-nav apex-page-fast">
       {/* Sticky header */}
       <div className="sticky top-0 z-10 bg-[#F8F7F4]/95 backdrop-blur px-6 pt-14 pb-4 border-b-[0.5px] border-[#E5E3DD]">
         <div className="flex items-start justify-between gap-2">
@@ -130,7 +130,7 @@ export default function Workout() {
         </div>
       </div>
 
-      <div className="px-6 pt-4 flex flex-col gap-4">
+      <div className="px-6 pt-4 flex flex-col gap-4 apex-stagger">
         {workout.exercises.length === 0 && (
           <div className="bg-white border-[0.5px] border-[#E5E3DD] p-8 text-center">
             <p className="text-[13px] font-light text-[#636158] lowercase">tap + to add your first exercise</p>
@@ -188,7 +188,7 @@ export default function Workout() {
       >
         <button
           onClick={() => { setSwapFor(null); setDrawerOpen(true) }}
-          className="w-14 h-14 bg-[#22E8E0] rounded-none flex items-center justify-center text-[#0F0F0E] active:opacity-80 transition-opacity"
+          className="w-14 h-14 bg-[#22E8E0] rounded-none flex items-center justify-center text-[#0F0F0E] active:opacity-80 transition-opacity active:scale-[0.97] transition-transform duration-150"
         >
           <Plus size={26} strokeWidth={2.5} />
         </button>

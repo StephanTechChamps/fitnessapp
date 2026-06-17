@@ -2,7 +2,7 @@ import type { Program } from './buffDudes'
 
 export const PHUL: Program = {
   id: 'phul',
-  name: 'PHUL',
+  name: 'Hypertrophy Program',
   fullName: 'Power Hypertrophy Upper Lower',
   author: 'Brandon Campbell',
   daysPerWeek: 4,

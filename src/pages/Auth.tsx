@@ -36,7 +36,7 @@ export default function Auth() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4] flex flex-col px-6">
+    <div className="min-h-screen bg-[#F8F7F4] flex flex-col px-6 apex-page">
       {/* Brand label */}
       <p className="pt-14 text-[11px] font-medium uppercase tracking-[0.2em] text-[#0F0F0E]">
         FITLOG

@@ -177,7 +177,7 @@ export default function DayWorkout() {
   // ── Pre-workout overview (light APEX) ─────────────────────────
   if (!tracking) {
     return (
-      <div className="min-h-screen bg-[#F8F7F4] pb-32">
+      <div className="min-h-screen bg-[#F8F7F4] pb-32 apex-page">
         <div className="px-6 pt-14 pb-5 border-b-[0.5px] border-[#E5E3DD]">
           <button onClick={() => navigate(`/program/${program.id}/${phaseId}`)}
             className="flex items-center gap-2 text-[#B5B2AA] text-[11px] uppercase tracking-[0.14em] mb-6">
@@ -191,7 +191,7 @@ export default function DayWorkout() {
           <p className="text-[13px] font-light text-[#B5B2AA] mt-3">{day.exercises.length} exercises</p>
         </div>
 
-        <div className="px-6 pt-4">
+        <div className="px-6 pt-4 apex-stagger">
           {day.note && <p className="text-[13px] font-light text-[#636158] leading-relaxed mb-6 tracking-[0.01em]">{day.note}</p>}
           {day.exercises.map((ex, i) => (
             <button
@@ -214,7 +214,7 @@ export default function DayWorkout() {
         <div className="fixed bottom-0 left-0 right-0 px-6 pt-8 pb-6 bg-[#F8F7F4]"
           style={{ paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom))' }}>
           <button onClick={() => setTracking(true)}
-            className="w-full bg-[#22E8E0] text-[#0F0F0E] py-[18px] t-cta active:opacity-75 transition-opacity">
+            className="w-full bg-[#22E8E0] text-[#0F0F0E] py-[18px] t-cta active:opacity-75 transition-opacity active:scale-[0.97] transition-transform duration-150">
             Start Workout
           </button>
         </div>
@@ -224,7 +224,7 @@ export default function DayWorkout() {
 
   // ── Active tracking (warm cream APEX light) ───────────────────
   return (
-    <div className="min-h-screen bg-[#F8F7F4] pb-44">
+    <div className="min-h-screen bg-[#F8F7F4] pb-44 apex-page-fast">
       {scrolled && (
         <button onClick={() => setRestActive(true)}
           className="fixed right-6 z-20 flex items-center gap-1.5 bg-white border-[0.5px] border-[#E5E3DD] px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] text-[#0F0F0E]"
@@ -259,7 +259,7 @@ export default function DayWorkout() {
         </div>
       </div>
 
-      <div className="px-4 pt-4 pb-2 flex flex-col gap-3">
+      <div className="px-4 pt-4 pb-2 flex flex-col gap-3 apex-stagger">
         {exercises.map((ex, exIdx) => {
           const exDone = ex.sets.every((s) => s.completed)
           const exDoneCount = ex.sets.filter((s) => s.completed).length

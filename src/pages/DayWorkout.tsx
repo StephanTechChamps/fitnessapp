@@ -9,6 +9,7 @@ import { usePresets, applyPresetWeights } from '../contexts/PresetsContext'
 import RestTimer from '../components/RestTimer'
 import ScrollReveal from '../components/ScrollReveal'
 import ExerciseDrawer from '../components/ExerciseDrawer'
+import PageGlow from '../components/PageGlow'
 import { useElapsed } from '../hooks/useElapsed'
 import type { WorkoutSet, WgerExercise } from '../types'
 
@@ -213,6 +214,8 @@ export default function DayWorkout() {
   // ── Pre-workout overview ──────────────────────────────────────
   if (!tracking) {
     return (
+      <>
+      <PageGlow />
       <div className="min-h-screen pb-32 apex-page">
         <div className="px-6 pt-14 pb-5 border-b-[0.5px] border-border">
           <button onClick={() => navigate(`/program/${program.id}/${phaseId}`)}
@@ -258,11 +261,14 @@ export default function DayWorkout() {
           </button>
         </div>
       </div>
+      </>
     )
   }
 
   // ── Active tracking ───────────────────────────────────────────
   return (
+    <>
+    <PageGlow />
     <div className="min-h-screen pb-44 apex-page-fast">
       {scrolled && (
         <button onClick={() => setRestActive(true)}
@@ -405,5 +411,6 @@ export default function DayWorkout() {
         title="Swap Exercise"
       />
     </div>
+    </>
   )
 }

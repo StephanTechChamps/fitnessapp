@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
 import { getProgram } from '../data/programs'
 import { useCompletedSessions } from '../hooks/useProgramProgress'
 import ScrollReveal from '../components/ScrollReveal'
+import PageGlow from '../components/PageGlow'
 import type { ProgramDay } from '../data/buffDudes'
 
 export default function PhaseDetail() {
@@ -74,9 +75,11 @@ export default function PhaseDetail() {
   }
 
   return (
+    <>
+    <PageGlow />
     <div className="min-h-screen pb-nav apex-page">
       {/* Sticky header */}
-      <div className="sticky top-0 z-10 bg-bg px-6 pt-14 pb-5 border-b-[0.5px] border-border">
+      <div className="sticky top-0 z-10 bg-bg/80 backdrop-blur px-6 pt-14 pb-5 border-b-[0.5px] border-border">
         <button
           onClick={() => navigate(`/program/${program.id}`)}
           className="flex items-center gap-1.5 text-ink-muted text-[11px] font-medium uppercase tracking-[0.14em] mb-4"
@@ -110,7 +113,7 @@ export default function PhaseDetail() {
       {/* Weeks */}
       {weeksToShow.map((week) => (
         <div key={week} className="px-6">
-          <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink-mid pt-6 pb-2">
+          <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-accent pt-6 pb-2">
             Week {week}
           </p>
           <div className="apex-stagger">
@@ -121,5 +124,6 @@ export default function PhaseDetail() {
 
       <div className="h-4" />
     </div>
+    </>
   )
 }

@@ -63,13 +63,14 @@ export default function History() {
               return (
                 <div
                   key={cell.dateStr}
-                  className={`aspect-square flex items-center justify-center rounded-none text-[13px] font-light relative ${
+                  className="aspect-square flex items-center justify-center rounded-none text-[13px] font-light relative"
+                  style={
                     isToday
-                      ? 'bg-[#22E8E0] text-[#0F0F0E]'
+                      ? { background: '#22E8E0', color: '#0F0F0E', fontWeight: 500 }
                       : cell.hasWorkout
-                      ? 'bg-[#0F0F0E] text-white'
-                      : 'text-[#0F0F0E]'
-                  }`}
+                      ? { background: '#0F0F0E', color: '#22E8E0' }
+                      : { color: '#0F0F0E' }
+                  }
                 >
                   {cell.day}
                 </div>

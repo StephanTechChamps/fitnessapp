@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom'
-import { Dumbbell, CalendarDays, Footprints, TrendingUp } from 'lucide-react'
+import { House, Layers, Dumbbell, Footprints } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 
 const tabs = [
-  { to: '/workout', icon: Dumbbell, label: 'Workout' },
-  { to: '/history', icon: CalendarDays, label: 'History' },
+  { to: '/', icon: House, label: 'Home', end: true },
+  { to: '/programs', icon: Layers, label: 'Programs' },
+  { to: '/workout', icon: Dumbbell, label: 'Workout', end: true },
   { to: '/steps', icon: Footprints, label: 'Steps' },
-  { to: '/progress', icon: TrendingUp, label: 'Progress' },
 ]
 
 export default function BottomNav() {
@@ -24,11 +24,11 @@ export default function BottomNav() {
       }}
     >
       <div className="flex items-center justify-around h-[72px] px-2">
-        {tabs.map(({ to, icon: Icon, label }) => (
+        {tabs.map(({ to, icon: Icon, label, end }) => (
           <NavLink
             key={to}
             to={to}
-            end={to === '/workout'}
+            end={!!end}
             className="flex-1 flex flex-col items-center justify-center gap-1"
             aria-label={label}
           >

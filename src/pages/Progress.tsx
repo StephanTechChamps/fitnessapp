@@ -110,12 +110,12 @@ export default function Progress() {
                 {/* Mini stats */}
                 <div className="grid grid-cols-3 gap-2.5 mb-5">
                   {[
-                    { label: 'Personal Best', value: `${pb}kg` },
-                    { label: 'Sessions', value: sessions },
-                    { label: 'Last Session', value: `${lastWeight}kg` },
-                  ].map(({ label, value }) => (
+                    { label: 'Personal Best', value: `${pb}kg`, color: '#F5A623' },
+                    { label: 'Sessions', value: sessions, color: '#0F0F0E' },
+                    { label: 'Last Session', value: `${lastWeight}kg`, color: lastWeight === pb && pb > 0 ? '#22E8E0' : '#0F0F0E' },
+                  ].map(({ label, value, color }) => (
                     <div key={label} className="bg-white border-[0.5px] border-[#E5E3DD] p-3 text-center">
-                      <p className="text-[20px] font-extralight text-[#0F0F0E] leading-none">{value}</p>
+                      <p className="text-[20px] font-extralight leading-none" style={{ color }}>{value}</p>
                       <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-[#B5B2AA] mt-1 leading-tight">{label}</p>
                     </div>
                   ))}

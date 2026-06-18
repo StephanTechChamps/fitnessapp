@@ -8,6 +8,17 @@ import { PROGRAMS, getProgram } from '../data/programs'
 const WEEK_DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 const SCHEDULE_KEYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
+function focusColor(focus: string): string {
+  const f = focus.toLowerCase()
+  if (f.includes('leg') || f.includes('lower') || f.includes('calf') || f.includes('glute') || f.includes('quad')) return '#4CD964'
+  if (f.includes('chest') || f.includes('push')) return '#FF6B6B'
+  if (f.includes('back') || f.includes('pull') || f.includes('deadlift')) return '#22E8E0'
+  if (f.includes('arm') || f.includes('bicep') || f.includes('tricep')) return '#AF7AE3'
+  if (f.includes('shoulder') || f.includes('delt')) return '#F5A623'
+  if (f.includes('upper') || f.includes('full') || f.includes('super')) return '#FF9500'
+  return '#636158'
+}
+
 export default function Dashboard() {
   const { user } = useAuth()
   const { workouts } = useWorkouts()
@@ -96,23 +107,35 @@ export default function Dashboard() {
             ? isComplete(activeProgram.id, phase.id, curWeek, row.dayNum)
             : false
           const isToday = row.dayIndex === todayIndex
+          const color = row.isRest ? '#B5B2AA' : focusColor(row.focus)
 
           return (
             <button
               key={i}
               onClick={() => !row.isRest && row.dayNum && phase && navigate(`/program/${activeProgram.id}/${phase.id}/w/${curWeek}/d/${row.dayNum}`)}
               disabled={row.isRest}
-              className={`w-full flex items-center py-3.5 border-b-[0.5px] border-[#E5E3DD] last:border-b-0 text-left ${row.isRest ? 'cursor-default' : ''} ${isDone ? 'opacity-40' : ''}`}
+              className={`w-full flex items-center py-3.5 border-b-[0.5px] border-[#E5E3DD] last:border-b-0 text-left transition-opacity ${row.isRest ? 'cursor-default' : ''}`}
+              style={isToday && !isDone ? { background: 'rgba(34,232,224,0.04)' } : {}}
             >
               <span className="text-[10px] font-medium uppercase tracking-[0.14em] text-[#B5B2AA] w-10 flex-shrink-0">
                 {row.dayLabel}
               </span>
+              {/* Focus color dot */}
+              {!row.isRest && (
+                <span
+                  className="w-1.5 h-1.5 rounded-full flex-shrink-0 mr-2.5"
+                  style={{ background: color, opacity: isDone ? 0.4 : 1 }}
+                />
+              )}
               <span className={`flex-1 text-[15px] font-light lowercase tracking-[0.01em] ${
-                isToday && !isDone ? 'text-[#22E8E0]' : row.isRest ? 'text-[#B5B2AA]' : 'text-[#0F0F0E]'
+                isDone ? 'text-[#B5B2AA]' : row.isRest ? 'text-[#B5B2AA]' : 'text-[#0F0F0E]'
               }`}>
                 {row.focus.toLowerCase()}
               </span>
-              <span className={`text-[13px] flex-shrink-0 w-4 text-right ${isDone ? 'text-[#636158]' : isToday ? 'text-[#22E8E0]' : 'text-[#B5B2AA]'}`}>
+              <span
+                className="text-[13px] flex-shrink-0 w-4 text-right"
+                style={{ color: isDone ? color : isToday && !row.isRest ? '#22E8E0' : '#B5B2AA' }}
+              >
                 {isDone ? '✓' : isToday && !row.isRest ? '·' : row.isRest ? '–' : '○'}
               </span>
             </button>
@@ -131,10 +154,14 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* Secondary actions as plain text links */}
+      {/* Secondary actions */}
       <div className="px-6 pb-6 flex items-center gap-6">
-        <button onClick={() => navigate('/programs')} className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] active:text-[#636158]">
-          View Programs
+        <button onClick={() => navigate('/history')} className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] active:text-[#636158]">
+          History
+        </button>
+        <span className="text-[#E5E3DD]">·</span>
+        <button onClick={() => navigate('/progress')} className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] active:text-[#636158]">
+          Progress
         </button>
         <span className="text-[#E5E3DD]">·</span>
         <button onClick={startFreeSession} className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#B5B2AA] active:text-[#636158]">

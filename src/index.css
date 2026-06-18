@@ -82,9 +82,8 @@ body::before {
   will-change: transform;
 }
 
-/* Decorative indigo→violet aurora for richer pages (week / day). Multi-tone so
-   it reads as more than one accent; soft in light, luminous in dark. Shifts on
-   scroll via --bg-shift for a premium, alive feel. Render OUTSIDE animated
+/* Subtle warm wash for the week / day pages — a gentle white→cream gradient that
+   deepens slightly as you scroll (via --bg-shift). Render OUTSIDE animated
    (transformed) page roots so it stays fixed to the viewport. */
 .page-glow {
   position: fixed;
@@ -96,18 +95,10 @@ body::before {
   pointer-events: none;
   transform: translate3d(0, var(--bg-shift), 0);
   will-change: transform;
-  background:
-    radial-gradient(48% 32% at 14% 5%,   rgba(79, 70, 229, 0.16), transparent 70%),
-    radial-gradient(46% 30% at 92% 20%,  rgba(124, 108, 240, 0.13), transparent 72%),
-    radial-gradient(40% 26% at 30% 52%,  rgba(99, 102, 241, 0.10), transparent 74%),
-    radial-gradient(62% 42% at 60% 90%,  rgba(79, 70, 229, 0.12), transparent 76%);
+  background: linear-gradient(to bottom, #fdfcfa 0%, #f4f1ea 50%, #ece4d4 100%);
 }
 :root.dark .page-glow {
-  background:
-    radial-gradient(50% 34% at 14% 5%,   rgba(99, 102, 241, 0.26), transparent 70%),
-    radial-gradient(48% 32% at 92% 20%,  rgba(139, 127, 240, 0.20), transparent 72%),
-    radial-gradient(42% 28% at 30% 52%,  rgba(99, 102, 241, 0.16), transparent 74%),
-    radial-gradient(64% 44% at 60% 90%,  rgba(79, 70, 229, 0.18), transparent 76%);
+  background: linear-gradient(to bottom, #1a1916 0%, #131210 55%, #0e0d0c 100%);
 }
 
 input[type="number"]::-webkit-inner-spin-button,

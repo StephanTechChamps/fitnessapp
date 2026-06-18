@@ -113,7 +113,7 @@ export default function PhaseDetail() {
       {/* Weeks */}
       {weeksToShow.map((week) => (
         <div key={week} className="px-6">
-          <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-accent pt-6 pb-2">
+          <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink-mid pt-6 pb-2">
             Week {week}
           </p>
           <div className="apex-stagger">

@@ -76,8 +76,8 @@ export default function Dashboard() {
           </span>
         </div>
         <h1
-          className="font-display font-medium text-ink leading-[0.92] tracking-[-0.035em]"
-          style={{ fontSize: 'clamp(46px, 14vw, 66px)' }}
+          className="font-display font-medium ink-tint leading-[0.92] tracking-[-0.035em] head-rise"
+          style={{ fontSize: 'clamp(46px, 14vw, 66px)', animationDelay: '60ms' }}
         >
           {activeProgram.name}
         </h1>

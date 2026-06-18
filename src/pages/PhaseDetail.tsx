@@ -88,12 +88,12 @@ export default function PhaseDetail() {
           {program.name.toLowerCase()}
         </button>
 
-        <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink-mid mb-1">
+        <p className="t-eyebrow mb-1 head-rise" style={{ animationDelay: '40ms' }}>
           {program.phases.length > 1
             ? `Phase ${phaseIndex} of ${program.phases.length}`
             : 'Weekly Cycle'}
         </p>
-        <h1 className="text-[28px] font-display font-medium text-ink lowercase tracking-[-0.015em]">
+        <h1 className="text-[28px] font-display font-medium ink-tint lowercase tracking-[-0.015em] head-rise" style={{ animationDelay: '90ms' }}>
           {phase.name}
         </h1>
         <p className="text-[13px] font-light text-ink-mid mt-1">

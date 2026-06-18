@@ -222,14 +222,14 @@ export default function DayWorkout() {
             className="flex items-center gap-2 text-ink-muted text-[11px] uppercase tracking-[0.14em] mb-6">
             <ArrowLeft size={14} /> {program.name.toLowerCase()}
           </button>
-          <p className="t-eyebrow mb-3">
+          <p className="t-eyebrow mb-3 head-rise" style={{ animationDelay: '40ms' }}>
             {program.phases.length > 1 ? `Phase ${phaseIndex} · ` : ''}Week {week} · Day {day.day}
             {day.type && (
               <span className="ml-2 border-[0.5px] border-accent text-accent px-2 py-0.5 rounded-[6px]">{day.type}</span>
             )}
           </p>
-          <h1 className="t-hero text-ink">{day.focus.toLowerCase()}</h1>
-          <p className="text-[13px] font-light text-ink-muted mt-3">{day.exercises.length} exercises</p>
+          <h1 className="t-hero ink-tint head-rise" style={{ animationDelay: '90ms' }}>{day.focus.toLowerCase()}</h1>
+          <p className="text-[13px] font-light text-ink-muted mt-3 head-rise" style={{ animationDelay: '150ms' }}>{day.exercises.length} exercises</p>
         </div>
 
         <div className="px-6 pt-4">
@@ -285,10 +285,10 @@ export default function DayWorkout() {
         </button>
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
-            <p className="t-eyebrow mb-1" style={{ color: 'var(--color-ink-mid)' }}>
+            <p className="t-eyebrow mb-1">
               {program.phases.length > 1 ? `Phase ${phaseIndex} · ` : ''}Week {week} · Day {day.day}
             </p>
-            <h1 className="text-[22px] font-extralight text-ink lowercase tracking-[0.01em] truncate">{day.focus.toLowerCase()}</h1>
+            <h1 className="text-[22px] font-display font-medium ink-tint lowercase tracking-[-0.015em] truncate">{day.focus.toLowerCase()}</h1>
             <div className="flex items-center gap-4 mt-1">
               <div className="flex items-center gap-1.5 text-ink-mid text-[11px] tracking-[0.05em]">
                 <Clock size={11} />

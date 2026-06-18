@@ -14,7 +14,7 @@ export default function Programs() {
         <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink-muted mb-2">
           Training
         </p>
-        <h1 className="text-[44px] font-display font-light tracking-[-0.02em] lowercase tracking-[0.01em] leading-[1.05] text-ink">
+        <h1 className="text-[44px] font-display font-light tracking-[-0.02em] lowercase leading-[1.05] ink-tint head-rise">
           programs
         </h1>
       </div>
